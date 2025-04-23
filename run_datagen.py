@@ -4,7 +4,7 @@ import tempfile
 import glob
 import subprocess
 
-DATAGEN_NUM_ITERATIONS = 10
+DATAGEN_NUM_ITERATIONS = 2
 
 # Hold a list of classpaths to be used to run datagen, evosuite, etc.
 classpaths: Set[str] = set()
@@ -18,6 +18,9 @@ classpaths.update(
 
 
 def run_datagen_on(filepath: str):
+    # Store the current working directory.
+    cwd = os.getcwd()
+
     # Make a temporary working directory with "_datagen" suffix.
     # The directory should be persisted.
     working_dir = tempfile.mkdtemp(suffix="_datagen")
@@ -88,6 +91,9 @@ def run_datagen_on(filepath: str):
         print("Error running datagen:", e)
         exit(-1)
         return None
+
+    # Go back to the original directory.
+    os.chdir(cwd)
 
     # Return the working directory.
     return working_dir
