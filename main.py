@@ -6,8 +6,7 @@ import os
 import sys
 import glob
 import shutil
-from run_benchmark import run_datagen_on, run_evosuite_on, run_evosuite_mod_on
-
+from run_datagen import run_datagen_on
 
 # Ensure that datagen, evosuite and evosuite-mod exist.
 expected_datagen_path = os.path.join(
