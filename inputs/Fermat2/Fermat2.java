@@ -68,7 +68,6 @@ public class Fermat2 {
 
         ; // datagen_guard_start func_start A B
         while (counter++ < 1) {
-            ; // datagen_instrument fermat2_loop0 A r B u v
             if (!(r != 0))
                 break;
 

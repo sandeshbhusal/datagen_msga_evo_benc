@@ -45,7 +45,6 @@ public class Mannadiv {
         int y3 = x1;
         int counter = 0;
         while (counter++ < 1) {
-            ; // datagen_instrument mannadiv_loop0 x1 y1 x2 y2
             if (!(y3 != 0)) break;
             if (y2 + 1 == x2) {
                 y1 = y1 + 1;

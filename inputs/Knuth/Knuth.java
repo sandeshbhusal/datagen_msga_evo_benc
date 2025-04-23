@@ -95,10 +95,6 @@ public class Knuth {
 
         ; // datagen_guard_start func_start n a
         while (counter++ < 1) {
-            ; // datagen_instrument knuth_loop0 d q r k n
-            ; // datagen_instrument knuth_loop1 k t
-            ; // datagen_instrument knuth_loop2 d 1 r t a
-            ; // datagen_instrument knuth_loop3 d k t a
             if (!(s >= d && r != 0)) break;
 
             if (2 * r + q < k) {

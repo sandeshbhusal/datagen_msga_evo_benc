@@ -65,7 +65,6 @@ public class Prodbin {
         int z = 0;
 
         while (true) {
-            ; // datagen_instrument prodbin_loop0 a b x y z
             if (!(y != 0)) {
                 break;
             }
