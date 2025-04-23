@@ -22,6 +22,14 @@ def run_datagen_on(filepath: str):
     # The directory should be persisted.
     working_dir = tempfile.mkdtemp(suffix="_datagen")
 
+    # Store the absolute path of the file.
+    filepath = os.path.abspath(filepath)
+
+    # We need to move into the working directory, so as not not pollute other processes
+    # that might be running at the same time. Otherwise, evosuite-tests and evosuite-report
+    # might be moved in the middle of the run by other processes (or we might move it).
+    os.chdir(working_dir)
+
     print("Running datagen on", filepath)
     # We need to add this filepath's dir to the classpath.
 
