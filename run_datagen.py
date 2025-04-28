@@ -4,7 +4,9 @@ import tempfile
 import glob
 import subprocess
 
-DATAGEN_NUM_ITERATIONS = 2
+DATAGEN_NUM_ITERATIONS = 20
+
+AUGMENTATION = True
 
 # Hold a list of classpaths to be used to run datagen, evosuite, etc.
 classpaths: Set[str] = set()
@@ -17,7 +19,7 @@ classpaths.update(
 )
 
 
-def run_datagen_on(filepath: str):
+def run_datagen_on(filepath: str, augment_code: bool = True):
     # Store the current working directory.
     cwd = os.getcwd()
 
@@ -40,6 +42,9 @@ def run_datagen_on(filepath: str):
     classpath_mod = classpaths.copy()
     classpath_mod.add(local_classpath)
 
+    augment_flag = "true" if augment_code else "false"
+    invariant_flag = "false"  # We do not want to generate invariants yet. That's used when datagen is run standalone.
+
     cmd = [
         "java",
         "-cp",
@@ -50,21 +55,25 @@ def run_datagen_on(filepath: str):
         "-w",
         working_dir,
         "-k",
-        "false",  # We do not want to skip augmentation.
+        augment_flag,
         "-x",
-        "true",  # We do not want to generate invariants yet. That's used when datagen is run standalone.
+        invariant_flag,  # We do not want to generate invariants yet. That's used when datagen is run standalone.
         "-i",
         f"{DATAGEN_NUM_ITERATIONS}",  # Number of iterations to run datagen for.
     ]
 
     try:
+        logfile_out = open(os.path.join(working_dir, "datagen.out"), "w")
+        logfile_err = open(os.path.join(working_dir, "datagen.err"), "w")
+
         output = subprocess.run(
             cmd, 
             check=True, 
-            stdout=subprocess.PIPE, 
-            stderr=subprocess.PIPE, 
+            stdout=logfile_out, 
+            stderr=logfile_err, 
             text=True
         )
+
         if output.returncode != 0:
             print("Datagen failed with return code", output.returncode)
             print("Output:", output.stdout)
@@ -97,3 +106,6 @@ def run_datagen_on(filepath: str):
 
     # Return the working directory.
     return working_dir
+
+if __name__ == "__main__":
+    run_datagen_on("inputs/A_LT_B/")

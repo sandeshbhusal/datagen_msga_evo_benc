@@ -1,3 +1,4 @@
 /evosuite-*/*
 /datagen-outputs/*
 /__pycache__/*
+/.vscode/*
